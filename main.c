@@ -19,7 +19,7 @@ typedef struct
     char sexo;
     float salario;
     eFecha fechaIngreso;
-    int idCarrera;
+    int idSector;
     int isEmpty;
 } eEmployee;
 
@@ -38,7 +38,7 @@ void initEmployees(eEmployee vec[], int tam);
 int buscarLibre(eEmployee vec[], int tam);
 int findEmployeeById(int legajo, eEmployee vec[], int tam);
 int addEmployees(eEmployee vec[], int tam, int leg);// Funcion que se usa para agregar un empleado
-eEmployee newEmpleado(int leg,char nombre[],int edad, char sexo, eFecha f, int idCarrera);
+eEmployee newEmpleado(int leg,char nombre[],int edad, char sexo, eFecha f, int idSector);
 int removeEmployee(eEmployee vec[], int tam);
 int modifiEmployee(eEmployee vec[], int tam);
 int hardcodearEmployee( eEmployee vec[], int tam, int cantidad);
@@ -49,7 +49,7 @@ int hardcodearEmployee( eEmployee vec[], int tam, int cantidad);
 
 int main()
 {
-    int legajo = 20000;
+    int legajo = 1000;
     char salir = 'n';
     eEmployee lista[TAM];
 
@@ -117,7 +117,7 @@ int menu()
     printf("2-Baja Empleado\n");
     printf("3-Modificar Empleado\n");
     printf("4-Listar Empleado\n");
-    printf("5-Ordenar Empleado\n");
+    printf("5-Ordenar Empleado por apellido y sector\n");
     printf("6-Informes Empleado\n");
     printf("7-Salir\n\n");
     printf("Ingrese opcion: ");
@@ -128,6 +128,7 @@ int menu()
 
 int menuInformes()
 {
+    eEmployee lista[TAM];
     int opcion;
     system("cls");
     printf("****** Informes *******\n\n");
@@ -137,6 +138,13 @@ int menuInformes()
     printf("4-Salir\n\n");
     printf("Ingrese opcion: ");
     scanf("%d", &opcion);
+
+    switch(opcion)
+    {
+    case 1:
+          mostrarEmpleados(lista, TAM);
+        break;
+    }
 
     return opcion;
 }
@@ -163,7 +171,7 @@ void mostrarEmpleados(eEmployee vec[], int tam)
     int flag = 0;
     system("cls");
 
-    printf(" Legajo    Nombre    Edad   Sexo  Salario   FIngreso  Carrera\n\n");
+    printf(" Legajo    Nombre    Edad   Sexo  Salario   FIngreso  Sector\n\n");
 
     for(int i=0; i < tam; i++)
     {
@@ -190,7 +198,7 @@ void SortEmployee(eEmployee vec[], int tam)
     {
         for(int j= i+1; j <tam; j++)
         {
-            if( vec[i].sexo > vec[j].sexo)
+            if( vec[i].legajo > vec[j].legajo && vec[i].idSector > vec[j].idSector )
             {
                 auxEmpleado = vec[i];
                 vec[i] = vec[j];
@@ -247,7 +255,7 @@ int addEmployees(eEmployee vec[], int tam, int leg)
     char nombre[20];
     char sexo;
     int edad;
-    int idCarrera;
+    int idSector;
     eFecha fecha;
 
     system("cls");
@@ -278,9 +286,9 @@ int addEmployees(eEmployee vec[], int tam, int leg)
 
 
         printf("Ingrese Sector: ");
-        scanf("%d", &idCarrera);
+        scanf("%d", &idSector);
 
-        vec[indice] = newEmpleado(leg, nombre, edad, sexo, fecha, idCarrera);
+        vec[indice] = newEmpleado(leg, nombre, edad, sexo, fecha, idSector);
         todoOk = 1;
         printf("Alta exitosa!!\n\n");
     }
@@ -294,7 +302,7 @@ eEmployee newEmpleado(
     int edad,
     char sexo,
     eFecha fecha,
-    int idCarrera
+    int idSector
 )
 {
 
@@ -304,7 +312,7 @@ eEmployee newEmpleado(
     al.sexo = sexo;
     al.edad = edad;
     al.fechaIngreso = fecha;
-    al.idCarrera = idCarrera;
+    al.idSector = idSector;
     al.isEmpty = 0;
 
     return al;
@@ -409,16 +417,16 @@ int hardcodearEmployee( eEmployee vec[], int tam, int cantidad)
     eEmployee suplentes[]=
     {
         { 20000, "Juan", 20, 'm', 6, {12, 5, 2015}, 1002, 0},
-        { 20001, "Alberto", 21, 'm', 5, {12, 5, 2019},1001, 0},
-        { 20002, "Ana", 22, 'f', 4.5, {2, 7, 2018},1002, 0},
-        { 20003, "Luis", 20, 'm', 8.5, {21, 5, 2018},1000, 0},
+        { 20003, "Alberto", 21, 'm', 5, {12, 5, 2019},1001, 0},
+        { 20005, "Ana", 22, 'f', 4.5, {2, 7, 2018},1002, 0},
+        { 20002, "Luis", 20, 'm', 8.5, {21, 5, 2018},1000, 0},
         { 20004, "Alicia", 21, 'f', 6.5, {11, 9, 2017},1001, 0},
-        { 20005, "Diego", 23, 'm', 2, {12, 4, 2014},1000, 0},
+        { 20001, "Diego", 23, 'm', 2, {12, 4, 2014},1000, 0},
         { 20006, "Sofia", 19, 'f', 8.5, {12, 2, 2014},1002, 0},
-        { 20007, "Clara", 21, 'f', 3, {28, 8, 2018},1001, 0},
-        { 20008, "Mauro", 20, 'm', 5.5, {23, 3, 2015},1001, 0},
+        { 20012, "Clara", 21, 'f', 3, {28, 8, 2018},1001, 0},
+        { 20010, "Mauro", 20, 'm', 5.5, {23, 3, 2015},1001, 0},
         { 20009, "Daniela", 22, 'f', 4, {10, 10, 2016},1000, 0},
-        { 20010, "Agustin", 24, 'm', 6.5, {1, 7, 2017},1002, 0},
+        { 20011, "Agustin", 24, 'm', 6.5, {1, 7, 2017},1002, 0},
     };
 
     if( cantidad <= 10 && tam >= cantidad)
